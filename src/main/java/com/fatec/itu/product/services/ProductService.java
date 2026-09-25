@@ -26,4 +26,31 @@ public class ProductService {
     public List<Product> findAll(){
         return repository.findAll();
     }
+
+    public void deleteById(long id) {
+        if(repository.existsById(id))
+            repository.deleteById(id);
+        else
+           throw new EntityNotFoundException("Produto não cadastrado");
+
+    }
+
+    public Product save(Product product)
+    {
+         return repository.save(product);
+    }
+
+    public void update(Product product, Long id)
+    {
+        Product p  = repository.findById(id)
+                               .orElseThrow(() -> new EntityNotFoundException("Produto não cadastrado"));
+
+        p.setDescription(product.getDescription());                                
+        p.setName(product.getName());
+        p.setPrice(product.getPrice());
+
+        repository.save(p);
+
+
+    }
 }
